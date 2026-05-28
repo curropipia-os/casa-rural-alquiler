@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   Tipografías locales — Neue Montreal, Zodiak, DM Mono
+   Coloca los .woff2 en /public/fonts (o ajusta la ruta).
+   Si aún no los tienes, las fuentes del sistema sirven de fallback.
+------------------------------------------------------------------- */
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url("/fonts/PPNeueMontreal-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/fonts/PPNeueMontreal-Book.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/PPNeueMontreal-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/PPNeueMontreal-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/PPNeueMontreal-Italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Zodiak";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/Zodiak-Variable.woff2") format("woff2");
+}
+@font-face {
+  font-family: "DM Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/DMMono-Regular.woff2") format("woff2");
+}
+
+:root {
+  --font-montreal: "Neue Montreal", system-ui, -apple-system, sans-serif;
+  --font-zodiak: "Zodiak", Georgia, serif;
+  --font-dmmono: "DM Mono", ui-monospace, monospace;
+
+  --bg: #f5f2ec;
+  --ink: #111111;
+  --line: #e8e5de;
+  --muted: #6b6e51;
+}
+
+/* Lenis ---------------------------------------------------------- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Reset ligero --------------------------------------------------- */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-montreal);
+  font-weight: 300;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+/* Tipografía base ----------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-zodiak);
+  font-weight: 300;
+  line-height: 1;
+}
+
+.font-eyebrow {
+  font-family: var(--font-dmmono);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.8125rem;
+}
+
+/* Botón base con flecha --------------------------------------- */
+.btn-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  border: 1px solid currentColor;
+  padding: 0.625em 0.875em;
+  line-height: 1;
+  font-size: 1.125rem;
+  border-radius: 4px;
+  background: transparent;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+.btn-arrow .arrow {
+  width: 12px;
+  height: auto;
+  transform: scaleX(-1) rotate(45deg);
+  transition: transform 0.25s ease;
+}
+.btn-arrow:hover {
+  background-color: var(--ink);
+  color: var(--bg);
+}
+.btn-arrow:hover .arrow {
+  transform: scaleX(-1) rotate(0deg);
+}
+.btn-arrow.is-light {
+  color: #fff;
+  border-color: #fff;
+}
+.btn-arrow.is-light:hover {
+  background-color: #fff;
+  color: var(--ink);
+}
+
+/* Línea decorativa del eyebrow --------------------------------- */
+.eyebrow-line {
+  display: inline-block;
+  height: 1px;
+  min-width: 48px;
+  background: currentColor;
+  opacity: 0.4;
+}
+
+/* Marquee ------------------------------------------------------ */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(-100% - var(--gap, 2rem))); }
+}
+.marquee {
+  display: flex;
+  overflow: hidden;
+  --gap: 4rem;
+  gap: var(--gap);
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 5%,
+    #000 95%,
+    transparent
+  );
+}
+.marquee__track {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: var(--gap);
+  min-width: 100%;
+  animation: marquee 50s linear infinite;
+}
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+/* Footer mask logo --------------------------------------------
+   Usamos un data-URI SVG en lugar de fragment-id (#id) porque
+   `mask-image: url(#id)` falla en Chromium para elementos HTML.
+   Esto sí funciona en todos los navegadores modernos.
+*/
+.footer-mask {
+  width: 100%;
+  max-height: 60vh;
+  aspect-ratio: 800/180;
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 180'><text x='400' y='148' text-anchor='middle' font-family='Georgia,serif' font-size='180' font-weight='300' fill='black' font-style='italic'>Mas Ser%C3%A8</text></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 180'><text x='400' y='148' text-anchor='middle' font-family='Georgia,serif' font-size='180' font-weight='300' fill='black' font-style='italic'>Mas Ser%C3%A8</text></svg>");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  overflow: hidden;
+}
+.footer-mask video,
+.footer-mask .footer-mask__fallback {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Si no hay vídeo, mantenemos el espacio con un degradado */
+.footer-mask__fallback {
+  background: radial-gradient(120% 60% at 30% 50%, #6b6e51 0%, #2a2e1f 60%, #111 100%);
+}
+
+/* Reduced motion ---------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

@@ -1,0 +1,9 @@
+/node_modules
+/.next/
+/out/
+.env*
+.DS_Store
+next-env.d.ts
+
+# Documento interno — no subir al repo
+/app/styleguide/
